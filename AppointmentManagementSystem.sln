@@ -1,0 +1,61 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2027
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppointmentManagementSystem.Web", "AppointmentManagementSystem\AppointmentManagementSystem.Web.csproj", "{0C776A0E-F1CC-4156-8BFB-6A703E35939F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserManager", "UserManager\UserManager.csproj", "{87F798F6-91AA-4D61-AAC5-719AD1FADE95}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		DEV|Any CPU = DEV|Any CPU
+		PRODUCTION|Any CPU = PRODUCTION|Any CPU
+		QA|Any CPU = QA|Any CPU
+		Release|Any CPU = Release|Any CPU
+		SIT|Any CPU = SIT|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0C776A0E-F1CC-4156-8BFB-6A703E35939F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C776A0E-F1CC-4156-8BFB-6A703E35939F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C776A0E-F1CC-4156-8BFB-6A703E35939F}.DEV|Any CPU.ActiveCfg = Release|Any CPU
+		{0C776A0E-F1CC-4156-8BFB-6A703E35939F}.DEV|Any CPU.Build.0 = Release|Any CPU
+		{0C776A0E-F1CC-4156-8BFB-6A703E35939F}.PRODUCTION|Any CPU.ActiveCfg = Release|Any CPU
+		{0C776A0E-F1CC-4156-8BFB-6A703E35939F}.PRODUCTION|Any CPU.Build.0 = Release|Any CPU
+		{0C776A0E-F1CC-4156-8BFB-6A703E35939F}.QA|Any CPU.ActiveCfg = Release|Any CPU
+		{0C776A0E-F1CC-4156-8BFB-6A703E35939F}.QA|Any CPU.Build.0 = Release|Any CPU
+		{0C776A0E-F1CC-4156-8BFB-6A703E35939F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C776A0E-F1CC-4156-8BFB-6A703E35939F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C776A0E-F1CC-4156-8BFB-6A703E35939F}.SIT|Any CPU.ActiveCfg = Release|Any CPU
+		{0C776A0E-F1CC-4156-8BFB-6A703E35939F}.SIT|Any CPU.Build.0 = Release|Any CPU
+		{87F798F6-91AA-4D61-AAC5-719AD1FADE95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87F798F6-91AA-4D61-AAC5-719AD1FADE95}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87F798F6-91AA-4D61-AAC5-719AD1FADE95}.DEV|Any CPU.ActiveCfg = Debug|Any CPU
+		{87F798F6-91AA-4D61-AAC5-719AD1FADE95}.DEV|Any CPU.Build.0 = Debug|Any CPU
+		{87F798F6-91AA-4D61-AAC5-719AD1FADE95}.PRODUCTION|Any CPU.ActiveCfg = Release|Any CPU
+		{87F798F6-91AA-4D61-AAC5-719AD1FADE95}.PRODUCTION|Any CPU.Build.0 = Release|Any CPU
+		{87F798F6-91AA-4D61-AAC5-719AD1FADE95}.QA|Any CPU.ActiveCfg = Release|Any CPU
+		{87F798F6-91AA-4D61-AAC5-719AD1FADE95}.QA|Any CPU.Build.0 = Release|Any CPU
+		{87F798F6-91AA-4D61-AAC5-719AD1FADE95}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87F798F6-91AA-4D61-AAC5-719AD1FADE95}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87F798F6-91AA-4D61-AAC5-719AD1FADE95}.SIT|Any CPU.ActiveCfg = Release|Any CPU
+		{87F798F6-91AA-4D61-AAC5-719AD1FADE95}.SIT|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B47ED168-796D-4063-A40C-E6373DEC958C}
+		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.Common.6.0.1304.0\lib\NET45;packages\EnterpriseLibrary.Logging.6.0.1304.0\lib\NET45
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 2
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://libertytechnology.visualstudio.com/
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = AppointmentManagementSystem\\AppointmentManagementSystem.Web.csproj
+		SccProjectName1 = AppointmentManagementSystem
+		SccLocalPath1 = AppointmentManagementSystem
+	EndGlobalSection
+EndGlobal

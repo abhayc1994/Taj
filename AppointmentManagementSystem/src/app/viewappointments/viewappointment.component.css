@@ -1,0 +1,108 @@
+﻿div.appdivContainer {
+    position: relative;
+    display: inline-flex;
+    flex-direction: row-reverse;
+}
+
+.dx-scheduler-work-space {
+    border: 1px solid rgba(221, 221, 221, 0.6);
+    background-color: #8a5555;
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+    border-top: none;
+}
+
+.dx-scheduler-view-switcher.dx-tabs .dx-tab.dx-tab-selected {
+    background-color: #8a5555;
+}
+
+    .dx-scheduler-view-switcher.dx-tabs .dx-tab.dx-tab-selected:before {
+        background-color: #8a5555;
+    }
+.dx-scheduler-work-space-both-scrollbar .dx-scheduler-all-day-title:before {
+    background-color: #8a5555;
+}
+
+div.appdivItem {
+    width: 8px;
+    height: 8px;
+    background-color: #ff6347;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 15px;
+    font-size: 12px;
+    border: 0.5px solid #8e878b;
+    margin-right: calc(4px);
+    margin-top: calc(5px);
+    
+}
+
+div.appcontextdivItem {
+    width: 10px;
+    height: 10px;
+    background-color: #ff6347;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 32px;
+    font-size: 12px;
+    border: 0.7px solid #8e878b;
+    margin-left: calc(3px);
+    margin-top: calc(5px);
+}
+
+::ng-deep .namecaption {
+    font-size: 12px;
+    
+}
+
+::ng-deep .datecaption {
+    font-size: 10px;
+
+}
+
+::ng-deep .contextNameTitle {
+    font-size: 1.3em;
+    line-height: 22px;
+}
+::ng-deep .contextdetails {
+    font-size: 1.0em;
+    line-height: 18px;
+    color:brown
+}
+::ng-deep .employee-weekend-1 {
+    background-color: rgba(86, 202, 133, 0.2);
+}
+
+::ng-deep .employee-weekend-2 {
+    background-color: rgba(255, 151, 71, 0.2);
+}
+
+
+
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+    .dx-template-wrapper {
+        overflow: none;
+    }
+
+    .panel {
+        height: 70px;
+        margin-bottom: 5px;
+    }
+}
+
+
+@media (min-width: 320px) and (max-width: 767px) {
+
+    .dx-template-wrapper {
+        overflow: auto;
+    }
+
+    .panel {
+        height: 70px;
+        margin-bottom: 5px;
+    }
+}
+

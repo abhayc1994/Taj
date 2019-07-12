@@ -1,0 +1,57 @@
+div.appdivContainer {
+    position: relative;
+    display: flex;
+    flex-direction: row-reverse;
+    margin-left: 1px;
+}
+
+div.appdivItem {
+    width: 10px;
+    height: 10px;
+    background-color: #ff6347;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 15px;
+    font-size: 12px;
+    border: 0.7px solid #8e878b;
+    margin-right: calc(4px);
+    margin-top: calc(5px);
+}
+
+div.appcontextdivItem {
+    width: 10px;
+    height: 10px;
+    background-color: #ff6347;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 32px;
+    font-size: 12px;
+    border: 0.7px solid #8e878b;
+    margin-left: calc(3px);
+    margin-top: calc(3px);
+}
+.rad {
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-touch-callout: none;
+    white-space: nowrap;
+    margin-right: 10px;
+}
+
+    .rad > input { /* HIDE ORG RADIO & CHECKBOX */
+        visibility: hidden;
+        position: absolute;
+    }
+    /* RADIO & CHECKBOX STYLES */
+    .rad > i { /* DEFAULT <i> STYLE */
+        display: inline-block;
+        vertical-align: middle;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        transition: 0.2s;
+        border: 1px solid gray;
+        background: gray;
+    }

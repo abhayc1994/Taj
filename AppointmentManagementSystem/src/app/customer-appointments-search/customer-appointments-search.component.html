@@ -1,0 +1,196 @@
+﻿
+
+    <!--<div class="pull-right" *ngIf="isNavFromAMS">
+        <button type="submit" class="btn btn-success" (click)="back()">Back</button>
+    </div>
+    <div>
+        <h2>Appointments</h2>
+    </div>-->
+    <div *ngIf="customerDetails">
+        <form #calcform="ngForm" (submit)="searchCustomer($event)">
+            <div class="form-group first" style="font-size:medium;font-family:Arial, Helvetica, sans-serif;margin-right:10px">
+                <span style="margin-right:5px">Select Search Criteria</span>
+                <select class="form-control" id="SearchByCriteria" name="SearchCriteria" [(ngModel)]="selectedType" (ngModelChange)="emptycustomerdetails()" style="width: 200px;">
+                    <option value="FirstLastSSN">First/Last/Last 4 of SSN </option>
+                    <option value="ConfirmationNumber">Confirmation Number</option>
+                </select>
+            </div>
+
+
+            <div class="row" id="SSN" *ngIf="selectedType=='FirstLastSSN'">
+                <div class="col-md-4">
+                    <label>First Name</label>
+                    <dx-text-box [(value)]="customerDetails.FirstName" name="firstName">
+                        <dx-validator>
+                            <dxi-validation-rule type="required" message="First Name is required"></dxi-validation-rule>
+                            <dxi-validation-rule type="pattern" [pattern]="namePattern" message="Do not use Alphanumeric/Special Characters"></dxi-validation-rule>
+                            <dxi-validation-rule type="stringLength" [max]="100" message="The text entered exceeds the maximum length of 100 characters."></dxi-validation-rule>
+                        </dx-validator>
+                    </dx-text-box>
+                </div>
+
+
+                <div class="col-md-4">
+                    <label>Last Name</label>
+                    <dx-text-box [(value)]="customerDetails.LastName" name="lastName" >
+                        <dx-validator>
+                            <dxi-validation-rule type="required" message="Last Name is required"></dxi-validation-rule>
+                            <dxi-validation-rule type="pattern" [pattern]="namePattern" message="Do not use Alphanumeric/Special Characters"></dxi-validation-rule>
+                            <dxi-validation-rule type="stringLength" [max]="100" message="The text entered exceeds the maximum length of 100 characters."></dxi-validation-rule>
+                        </dx-validator>
+                    </dx-text-box>
+                </div>
+                <div class="col-md-4">
+                    <label>Last 4 digits of SSN</label>
+                    <dx-text-box [(value)]="customerDetails.Last4SSN" mask="0000" [maskRules]="rules">
+                        <dx-validator>
+                            <dxi-validation-rule type="required" message="SSN is required"></dxi-validation-rule>
+                        </dx-validator>
+                    </dx-text-box>
+                    <!--<label>Last 4 digits of SSN</label>
+                    <input type="text" (keypress)="numberOnly($event)" class="form-control" name="last4SSN" [(ngModel)]="customerDetails.Last4SSN" style="width:63%;" maxlength="4" required>-->
+                </div>
+
+            </div>
+
+
+            <!--<div class="row"><span style="margin-left:42%; font-weight:bold;">(OR)</span></div>-->
+            <div class="row" id="Confirmation" *ngIf="selectedType=='ConfirmationNumber'">
+                <div class="col-md-4">
+                    <label>Confirmation Number</label>
+                    <dx-text-box [(value)]="customerDetails.ConfirmationNumber" name="confirmationNumber" class="form-control" [maxLength]="9">
+                        <dx-validator>
+                            <dxi-validation-rule type="required" message="Confirmation Number is required"></dxi-validation-rule>
+                            <dxi-validation-rule type="pattern" [pattern]="confirmationPattern" message="Confirmation Number should be only Alphanumeric"></dxi-validation-rule>
+                            <dxi-validation-rule type="stringLength" [min]="9" message="Confirmation Number must have 9 Alphanumerics"></dxi-validation-rule>
+                        </dx-validator>
+                    </dx-text-box>
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="col-md-4">
+                    <dx-button id="button"
+                               text="Search" 
+                               type="success"
+                               height="35px"
+                               border-color="#7761a7"
+                               border-radius="0px"
+                               background-color= "#7761a7"
+                               [useSubmitBehavior]="true">
+                    </dx-button>
+                    <!--<button type="submit"  class="btn btn-primary" style="margin:12% 36% 0% 0%;float:right;width:63%;">Search</button>-->
+                    <!--<button type="submit" [useSubmitBehavior]="true" [disabled]="(customerDetails.FirstName=='' || customerDetails.LastName=='' || customerDetails.Last4SSN=='') " class="btn btn-primary" (click)="searchCustomer()" style="margin:12% 36% 0% 0%;float:right;width:63%;">Search</button>-->
+                </div>
+            </div>
+        </form>
+    </div>
+    <br />
+
+    <div class="row">       
+        <div class="col-md-12" *ngIf="showGrid">    
+    <div style="margin-bottom:1%;" *ngIf="appointmentsData">
+        <span style="font-size:15px;font-weight:bold;">Appointments of {{searchName}}</span>
+    </div>
+    <div class="table-responsive" style="max-width:650px;max-height:180px;border:1px solid #ccc;" *ngIf="appointmentsData && isNavFromAMS">
+        <table class="table" style="overflow:scroll;">
+            <thead style="background-color:ghostwhite;">
+                <tr>
+                    <th>
+                        Date/time
+                    </th>
+                    <th>
+                        Status
+                    </th>
+                    <th>
+                        Office Id
+                    </th>
+
+                    <th>
+                        Type
+                    </th>
+                    <th>
+                        Notes
+                    </th>
+                    <th>
+                        Manage
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let appointmentData of appointmentsData.CustomerAppointmentDetails">
+                    <td>{{transfermtShortdateString(appointmentData.startDate,'MM-dd-yyyy hh:mm a')}}</td>
+                    <td>{{appointmentData.AppointmentStatus}}</td>
+                    <td>{{appointmentData.OfficeId}}</td>
+                    <td>{{getServiceName(appointmentData.AppointmentSerivces)}}</td>
+                    <td>{{appointmentData.Comments}}</td>
+                    <td> <button type="submit" *ngIf="appointmentData.AppointmentStatusId==1" class="btn btn-success" (click)="manageAppointment(appointmentData)">Edit</button></td>
+                </tr>
+                <tr *ngIf="appointmentsData.ErrorMessage">
+                    <td colspan="6" align="center">{{appointmentsData.ErrorMessage}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="table-responsive" *ngIf="appointmentsData && !isNavFromAMS">
+        <table class="table" style="border:1px solid #ccc;width:89%;">
+            <thead>
+                <tr>
+                    <th>
+                        confirmation number
+                    </th>
+                    <th>
+                        Date/time
+                    </th>
+                    <th>
+                        Status
+                    </th>
+                    <th>
+                        Type
+                    </th>
+                    <th>
+                        Manage
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let appointmentData of appointmentsData.CustomerAppointmentDetails">
+                    <td>{{appointmentData.ConfirmationNumber}}</td>
+                    <td>{{transfermtShortdateString(appointmentData.startDate,'MM-dd-yyyy hh:mm a')}}</td>
+                    <td>{{appointmentData.AppointmentStatus}}</td>
+                    <td>{{getServiceName(appointmentData.AppointmentSerivces)}}</td>
+                    <td> <button type="submit" *ngIf="appointmentData.AppointmentStatusId==1" class="btn btn-success" (click)="manageAppointment(appointmentData)">Edit</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+   
+</div>
+    <dx-popup class="popup"
+              [width]="popupWeight"
+              [height]="popupHeight"
+              [showTitle]="true"
+              title="Edit Customer Appointment"
+              [dragEnabled]="false"
+              [closeOnOutsideClick]="false"
+              [(visible)]="popupVisible">
+        <div *dxTemplate="let data of 'content'">
+            <create-appointment *ngIf="popupVisible" [selectedDateTimeSlote]="selectedDateTimeSlote" (closeEditAppointmentCall)="closeEditAppointment()"></create-appointment>
+        </div>
+    </dx-popup>
+
+    <dx-popup class="popup"
+              [width]="popupWeight"
+              [height]="popupHeight"
+              [showTitle]="true"
+              title="Customer Appointment"
+              [dragEnabled]="false"
+              [closeOnOutsideClick]="true"
+              [(visible)]="errorPopupVisible">
+        <div *dxTemplate="let data of 'content'">
+            This appointment is scheduled at another entity's office.
+        </div>
+    </dx-popup>

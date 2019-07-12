@@ -1,0 +1,248 @@
+﻿<form [class.myDiv]="storedDataService.hideDiv" id="form1">
+    <div id="page-wrapper">
+        <div class="row" style="margin-bottom:-20px">
+
+            <div style="padding:2%;font-family:'Arial Rounded MT';margin-left: -23px;width:74.2%;" class="hidden-sm  hidden-xs col-lg-10">
+                <div class="col-lg-3 col-md-3 cPanel" style="padding:10px;width:20%;">
+                    <div class="panel" [ngStyle]="getScheduledStyles()" (click)="viewAppointmentsScheduled('scheduled')">
+                        <div class="panel-heading statusPanel">
+                            <div class="row" style="color:white">
+                                <div class="col-xs-7 text-left statusPaneltext" style="font-size:larger">
+                                    <div style="margin-bottom:-15px">
+                                        <h2>{{storedDataService.scheduledCountToday}}</h2>
+                                    </div>
+                                    <div>Scheduled</div>
+                                </div>
+                                <div class="col-xs-5">
+                                    <i class="fa fa-calendar fa-4x  fa-pull-right"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 cPanel" style="padding:10px;width:20%;">
+                    <div class="panel" [ngStyle]="getAvailableStyles()" (click)="viewAvailableAppointments('1')">
+                        <div class="panel-heading statusPanel">
+                            <div class="row" style="color:white">
+                                <div class="col-xs-7 text-left statusPaneltext" style="font-size:larger">
+                                    <div style="margin-bottom:-15px">
+                                        <h2>{{storedDataService.availableCountToday}}</h2>
+                                    </div>
+                                    <div>Available</div>
+                                </div>
+                                <div class="col-xs-5">
+                                    <i class="fa fa-users fa-4x fa-pull-right"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 cPanel" style="padding:10px;width:20%;">
+                    <div class="panel" [ngStyle]="getCompletedStyles()" (click)="viewAppointmentsCompleted('completed')">
+                        <div class="panel-heading statusPanel">
+                            <div class="row" style="color:white">
+
+                                <div class="col-xs-7 text-left statusPaneltext" style="font-size:larger">
+                                    <div style="margin-bottom:-15px">
+                                        <h2>{{storedDataService.completedCountToday}}</h2>
+                                    </div>
+                                    <div>Completed</div>
+                                </div>
+                                <div class="col-xs-5">
+                                    <i class="fa fa-check-circle fa-4x  fa-pull-right"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 cPanel" style="padding:10px;width:20%;">
+                    <div class="panel" [ngStyle]="getCancelledStyles()" (click)="viewAppointmentsCancelled('cancelled')">
+                        <div class="panel-heading statusPanel">
+                            <div class="row" style="color:white">
+
+                                <div class="col-xs-7 text-left statusPaneltext" style="font-size:larger">
+                                    <div style="margin-bottom:-15px">
+                                        <h2>{{storedDataService.cancelledCountToday}}</h2>
+                                    </div>
+                                    <div>Cancelled</div>
+                                </div>
+                                <div class="col-xs-5">
+                                    <i class="fa fa-times-circle fa-4x fa-pull-right"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 cPanel" style="padding:10px;width:20%;">
+                    <div class="panel" [ngStyle]="getNoShowStyles()" (click)="viewAppointmentsNoShow('NoShow')">
+                        <div class="panel-heading statusPanel">
+                            <div class="row" style="color:white">
+
+                                <div class="col-xs-7 text-left statusPaneltext" style="font-size:larger">
+                                    <div style="margin-bottom:-15px">
+                                        <h2>{{storedDataService.noShowCountToday}}</h2>
+                                    </div>
+                                    <div style="white-space:nowrap;">No Show</div>
+                                </div>
+                                <div class="col-xs-5">
+                                    <i class="fa fa-ban fa-4x fa-pull-right"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 hidden-sm  hidden-xs " style="background-color:#f5f5f5;margin-right:-15px;margin-top:1.2%;height: 200px;">
+                <div class="pull-left">
+                    <!--<h2 style="font-size:medium;font-family:'Arial Rounded MT';">Weekly Status :</h2>-->
+                    <br /><span _ngcontent-c3="" style="font-size:medium;font-family:'Arial Rounded MT';">Weekly Status
+                        :</span>
+                    <span style="font-family:'Arial Rounded MT';">{{storedDataService.NavigatarText}}</span>
+                    <div style="align-content:flex-start" *ngIf="storedDataService.total>0">
+
+                        <table style="background-color:#f5f5f5;">
+                            <tbody>
+                                <tr *ngFor="let item of storedDataService.items">
+                                    <td>
+                                        <div class="SquareLegend" [ngStyle]="{'background-color':item.color}"></div>
+                                    </td>
+                                    <!--<td style="padding-left:10px">{{item.count}}</td>-->
+                                    <td style="padding-left:10px;padding-top:8px"> {{item.name}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="pull-left" style="margin-top: 31px; width:0px;margin-left:-66px">
+                    <div id="chart"></div>
+                </div>
+                <!--<div style="width:130px;padding-top:1%;" class="pull-right" *ngIf="storedDataService.total>0">
+                            <svg height="100%" width="100%" viewBox="-5 -5 130 130">
+                                <circle *ngFor="let item of storedDataService.items;let i=index" cx="60" cy="60" r="50" fill="transparent" stroke-width="25"
+                                        [attr.stroke-dasharray]="getPerimeter(50)" [attr.stroke-dashoffset]="getOffset(50,i)" [attr.stroke]="getColor(i)"></circle>
+                                <g class="chart-text">
+                                    <text x="42%" y="47%" class="chart-number" dy=".3em">
+                                        {{getCount()}}
+                                    </text>
+                                </g>
+                            </svg>
+                        </div>-->
+            </div>
+
+            <div style="padding:2%;font-family:'Arial Rounded MT';margin-top:10px" class="  hidden-md hidden-lg col-lg-12 col-md-12 col-sm-12">
+                <div class="col-lg-2 col-md-6 col-sm-6 col-xs-6 cPanelMobile">
+                    <div class="panel" [ngStyle]="getScheduledStyles()" (click)="viewAppointmentsScheduled('scheduled')">
+                        <div class="panel-heading ">
+                            <div class="row" style="color:white">
+                                <div class="col-xs-12 row text-left " style="font-size:larger">
+                                    <div class="col-xs-5" style="font-size:20px;margin-top:7px">
+                                        {{storedDataService.scheduledCountToday}}
+                                    </div>
+                                    <div class="col-xs-7" style="margin-top:10px">Scheduled</div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6 col-sm-6 col-xs-6 cPanelMobile">
+                    <div class="panel" [ngStyle]="getAvailableStyles()" (click)="viewAvailableAppointments('1')">
+                        <div class="panel-heading ">
+                            <div class="row" style="color:white">
+                                <div class="col-xs-12 row text-left " style="font-size:larger">
+                                    <div class="col-xs-5" style="font-size:20px;margin-top:7px">
+                                        {{storedDataService.availableCountToday}}
+                                    </div>
+                                    <div class="col-xs-7" style="margin-top:10px">
+                                        Available</div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6 col-sm-6 col-xs-6 cPanelMobile">
+                    <div class="panel" [ngStyle]="getCompletedStyles()" (click)="viewAppointmentsCompleted('completed')">
+                        <div class="panel-heading ">
+                            <div class="row" style="color:white">
+
+                                <div class="col-xs-12 row text-left " style="font-size:larger">
+                                    <div class="col-xs-5" style="font-size:20px;margin-top:7px">{{storedDataService.completedCountToday}}</div>
+                                    <div class="col-xs-7" style="margin-top:10px">Completed</div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6 col-sm-6 col-xs-6 cPanelMobile">
+                    <div class="panel" [ngStyle]="getCancelledStyles()" (click)="viewAppointmentsCancelled('cancelled')">
+                        <div class="panel-heading ">
+                            <div class="row" style="color:white">
+
+                                <div class="col-xs-12 row text-left " style="font-size:larger">
+                                    <div class="col-xs-5" style="font-size:20px;margin-top:7px">
+
+                                        {{storedDataService.cancelledCountToday}}
+
+                                    </div>
+                                    <div class="col-xs-7" style="margin-top:10px">Cancelled</div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="hidden-lg hidden-md col-xs-12 d-flex justify-content-center" style="margin-top:20px;margin-bottom:10px">
+            <div class="tabMenu col-xs-12">
+
+                <button class="tabMenuItem col-xs-6" (click)="onclickShowMobileTab('today')" [ngStyle]="{'background-color':showMobileTab == 'today' ? '#6c72e8' : 'gray' }">Todays
+                    </button>
+                <button class="tabMenuItem col-xs-6" (click)="onclickShowMobileTab('upcoming')" [ngStyle]="{'background-color':showMobileTab == 'upcoming' ? '#6c72e8' : 'gray' }">Upcoming
+                    <span class="hidden-xs hidden-sm">Appointment</span></button>
+
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div *ngIf="showMobileTabUpcoming" style="background-color:ghostwhite;" class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+                <div class="box box-primary">
+
+                    <div class="box-header">
+                        <h3 style="width: 25%;float:left;margin-left: 2%;">
+                            Appointment Details
+                        </h3>
+                        <small class="text-muted pull-right" style="float: right;margin:2%;">
+                            <button class="buttonAvailable" (click)="CreateNewAppointment()"><span class="glyphicon  glyphicon-plus"></span>&nbsp;New
+                                Appointment</button>
+                        </small>
+
+                    </div>
+
+                    <div class="card" style="width:96%;margin-left:2%;">
+                        <div class="card-body">
+                            <router-outlet></router-outlet>
+                            <div class="row" style="border:thin; padding:5px">
+                                <dx-popup class="popup" [width]="popupWeight" [height]="popupHeight" [showTitle]="true" title="Create Customer Appointment"
+                                    [dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="popupVisible">
+                                    <div *dxTemplate="let data of 'content'">
+                                        <create-appointment *ngIf="popupVisible"  (closeEditAppointmentCall)="closeEditAppointment($event)"></create-appointment>
+                                    </div>
+                                </dx-popup>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="showMobileTabToday" class="col-lg-3 col-md-3 col-xs-12 sidePanelScroll" style="background-color:#e7ebee;">
+                <dashboard-side-panel></dashboard-side-panel>
+            </div>
+        </div>
+    </div>
+</form>

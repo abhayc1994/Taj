@@ -1,0 +1,100 @@
+<div class="box box-primary" *ngIf="!globalDataService.hideDiv">
+    <div class="box-header">
+        <h3 class="box-title">Today's Schedule</h3>
+    </div>
+    <div class="card" style="background-color:#e7ebee; border:none !important;">
+        <div class="card-body">
+            <div>
+                <ng-container *ngFor="let appointmentslots of scheduledAndAvailableAppointmentSlotsData">
+
+                    <div class="cardSide" style="background-color:ghostwhite">
+                        <div style="align-content:flex-start;padding:5px">
+                            <h5>
+                                <!--<small *ngIf="appointmentslots.availableSlots > 0" class="text-muted pull-right"><button  class="buttonAvailable">Available</button></small>
+                                <small *ngIf="appointmentslots.availableSlots == 0" class="text-muted pull-right"><button class="buttonDisabled">Booked!</button></small>-->
+                                <span class="cPanel" (click)="appointmentslots.isExpand =!appointmentslots.isExpand">
+                                    <span [ngClass]="[!appointmentslots.isExpand ? 'glyphicon glyphicon-chevron-up' : 'glyphicon glyphicon-chevron-down']"></span>
+                                    {{transfermtShorttime(appointmentslots.startDateString,'shortTime')}} -  {{transfermtShorttime(appointmentslots.endDateString,'shortTime')}}
+                                </span>
+                            </h5><br />
+                            <div *ngIf="appointmentslots.isExpand">
+                                <ng-container *ngIf="appointmentslots.customerAppointmentDetailsList!=undefined && appointmentslots.customerAppointmentDetailsList.length > 0">
+                                    <div class="user-block post" *ngFor="let scheduledAppointments of appointmentslots.customerAppointmentDetailsList">
+                                        <div class="row">
+                                            <div class="col-lg-6 col-md-6 col-xs-6 col-sm-6">
+                                                <span class="username">
+                                                    {{scheduledAppointments.CustomerDetails.FirstName}} {{scheduledAppointments.CustomerDetails.LastName}}
+                                                </span>
+                                                <span class="description">{{transfermtShorttime(appointmentslots.startDateString,'shortTime')}} -  {{transfermtShorttime(appointmentslots.endDateString,'shortTime')}} </span>
+
+                                            </div>
+                                            <div class="col-lg-6 col-md-6 col-xs-6 col-sm-6">
+                                                <span class="status">
+                                                    <span style="cursor:pointer;font-size:medium;font-family:Arial, sans-serif;" (click)='editAppointment(scheduledAppointments)'>Edit</span>
+                                                </span>
+                                                <span class="status">
+                                                    <span style="cursor:pointer;font-size:medium;font-family:Arial, sans-serif;" (click)='changeStatus(scheduledAppointments)'>Change Status</span>
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <button type="button" class="btn btn-info btn-xs" style="margin-left: 1.2%" (click)="scheduledAppointments.selectedServiceType =!scheduledAppointments.selectedServiceType">
+                                            <span [ngClass]="[!scheduledAppointments.selectedServiceType ? 'glyphicon glyphicon-chevron-up' : 'glyphicon glyphicon-chevron-down']"></span> Selected Services</button>
+
+                                        <div class="description" style="border:1px solid #999" *ngIf="scheduledAppointments.selectedServiceType">
+                                            <ng-container *ngFor="let services of scheduledAppointments.AppointmentSerivces">
+                                                <div class="appdivContainer">
+                                                    <div style='font-size:12px'>{{services.Label}}</div>&nbsp;
+                                                    <div class="appcontextdivItem" [ngStyle]="{'background-color':services.HashColorCode}"></div>
+                                                </div>&nbsp;
+                                            </ng-container>
+                                        </div>
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                </ng-container>
+
+            </div>
+            <dx-popup class="popup"
+                      [width]="popupWeight"
+                      [height]="popupHeight"
+                      [showTitle]="true"
+                      title="Edit Customer Appointment"
+                      [dragEnabled]="false"
+                      [closeOnOutsideClick]="true"
+                      [(visible)]="popupVisible">
+                <div *dxTemplate="let data of 'content'">
+                    <create-appointment *ngIf="popupVisible" [selectedDateTimeSlote]="selectedDateTimeSlote" (closeEditAppointmentCall)="closeEditAppointment()"></create-appointment>
+                </div>
+            </dx-popup>
+            <dx-popup class="popup"
+                      [width]="350"
+                      [height]="220"
+                      [showTitle]="true"
+                      title="Change Appointment Status"
+                      [dragEnabled]="false"
+                      [closeOnOutsideClick]="true"
+                      [(visible)]="popupChangeStatusVisible">
+                <div *dxTemplate="let data of 'content'">
+                    <div class="card" style="border:double; border-color:cadetblue">
+                        <div class="card-body">
+                            <dx-button text='Complete Appointment' (onClick)='updateAppointmentStatus("complete")' style="color:#636e72; background-color:#9acafc; width:100%; ">
+                            </dx-button><br />
+                            <dx-button text='No Show Appointment' (onClick)='updateAppointmentStatus("noshow")' style="color:#FFFFFF; background-color:#636e72; width:100%;  ">
+                            </dx-button><br />
+                            <dx-button text='Cancel Appointment' (onClick)='updateAppointmentStatus("cancel")' style="color:#636e72; background-color:#eda999; width:100%;  ">
+                            </dx-button>
+                        </div>
+                    </div>
+                </div>
+            </dx-popup>
+        </div>
+    </div>
+    <!-- /.box-header -->
+    <!-- form start -->
+    <div class="box-body">
+    </div>
+</div>

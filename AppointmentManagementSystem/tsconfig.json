@@ -1,0 +1,27 @@
+{
+  "compileOnSave": false,
+  "include": [
+    "./src",
+    "./src/**/*",
+    "./node_modules/ng-multiselect-dropdown/index.ts"
+  ],
+  "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "./Scripts/out-tsc",
+    "target": "es5",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "lib": [ "es2017", "dom" ],
+    "noImplicitAny": false,
+    "suppressImplicitAnyIndexErrors": true,
+    "paths": {
+      "jszip": [
+        "node_modules/jszip/dist/jszip.min.js"
+      ]
+    }
+  }
+}
+

@@ -1,0 +1,98 @@
+﻿<ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="medium" color="#fff" type="line-spin-fade">
+</ngx-spinner>
+<nav class="header navbar-fixed-top" *ngIf="isNavFromAMS" style=" background: #151c2c;">
+
+    <div class="col-lg-1 col-md-1" style="border-right: 1px solid #e4e5e7;">
+        <label class="menu-icon" for="menu-btn" style="float:left;    padding: 23px 15px;"><span class="navicon"></span></label>
+        <a class="navbar-brand" href="javascript:void(0)">AMS</a>
+    </div>
+    <input class="menu-btn" type="checkbox" id="menu-btn" />
+    <label class="hidden-md hidden-lg " style="float:right;margin: 14px;" (click)="logoutClicked()"><i style="color:white" class="fa fa-sign-out-alt fa-2x"></i></label>
+    <ul id="collapsibleMenu" class="menu col-lg-11 col-md-11" style=" background: #151c2c;">
+        <li>
+            <form class="navbar-form" id="search-view">
+                <!--<div id="divEntity" *ngIf="divEntityShow" class="form-group first" style="color: #c2c4cb;font-size:large;font-family:Arial, Helvetica, sans-serif;padding-left:10px;margin-right:10px">--><!-- //added for Mobile View Search Customer Toggle Issue-->
+                <div class="form-group first" style="color: #c2c4cb;font-size:large;font-family:Arial, Helvetica, sans-serif;padding-left:10px;margin-right:10px">
+                    <span for="SearchByEntity" style="color: #c2c4cb;margin-right:5px">Entity:</span>
+                    <span *ngIf="entityDetails==undefined || entityDetails.length==0" for="SearchByEntity">{{selectedEntityId}}</span>
+                    <select class="form-control" id="SearchByEntity" name="entity" *ngIf="entityDetails!=undefined && entityDetails.length>0"
+                            [(ngModel)]="selectedEntityId" (ngModelChange)="onEntitySelection()">
+                        <option disabled selected value="select">Select Entity</option>
+                        <option *ngFor="let entity of entityDetails" value={{entity.EntityId}}>
+                            {{entity.EntityId}}
+                        </option>
+                    </select>
+                </div>
+
+                <!--<div id="divOffice" *ngIf="divEntityShow" class="form-group" style="color: #c2c4cb;font-size:large;font-family:Arial, Helvetica, sans-serif;padding-left:10px;">--><!-- //added for Mobile View Search Customer Toggle Issue-->
+                <div class="form-group" style="color: #c2c4cb;font-size:large;font-family:Arial, Helvetica, sans-serif;padding-left:10px;">
+                    <label style="color: #c2c4cb;margin-right:5px" for="SearchByOffice">Office:</label>
+
+                    <select class="form-control" id="SearchByOffice" name="office" [(ngModel)]="selectedOfficeId"
+                            (ngModelChange)="onOfficeChange($event)" [value]='noofficefound'>
+                        <option *ngIf="!noOfficeFound" disabled selected value="select">Select Office</option>
+                        <option *ngIf="noOfficeFound" value="noofficefound">No Office Found</option>
+                        <option *ngFor="let office of officeDetails" value={{office.OfficeId}}>
+                            {{office.OfficeName}}
+                        </option>
+                    </select>
+
+
+                </div>
+                <button class="btn btn-md btn-primary " style="margin-right:10px;margin-left:10px" (click)="searchCustomerAppointments()" [disabled]="globalDataService.hideDiv">
+                    Search
+                    Customer Appointment
+                </button>
+                <button class="btn btn-md btn-primary hidden-xs hidden-sm " (click)="configureOffice()" [disabled]="globalDataService.hideDiv">Configure Office</button>
+
+            </form>
+        </li>
+        <li class="dropdown hidden-xs hidden-sm" style="float:right;padding-right:10px;">
+            <button class="btn btn-default navbar-btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="true" id="dropdownBasic1">
+                {{userContext?.UserName}}
+                <!--<span class="caret"></span>-->
+            </button>
+            <ul id="logoutMenu" class="dropdown-menu" aria-labelledby="dropdownBasic1">
+                <li><a (click)="logoutClicked()" href="javascript:void(0)">Logout</a></li>
+            </ul>
+        </li>
+    </ul>
+
+
+</nav>
+
+
+
+<div class="container-fluid" *ngIf="visibleAfterPageLoad">
+    <div class="row" *ngIf="UserInfoMessgae!=''">
+        <div class="col-lg-4">
+
+        </div>
+        <div class="col-lg-4">
+            <div class="alert alert-info" role="alert" style="align-content:center">
+                <strong>User info!</strong> {{UserInfoMessgae}}
+            </div>
+        </div>
+        <div class="col-lg-4">
+
+        </div>
+    </div>   
+
+    <router-outlet></router-outlet>
+</div>
+
+
+<dx-popup class="popup" [width]="searchPopupWidth" [height]="searchPopupHeight" [showTitle]="true" title="Search Customer Appointment"
+          [dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="searchPopupVisible">
+    <div *dxTemplate="let data of 'content'">
+        <customer-appointments-search *ngIf="searchPopupVisible"></customer-appointments-search>
+    </div>
+</dx-popup>
+
+<dx-popup class="popup" [width]="popupWeight" [height]="popupHeight" [showTitle]="true" title="Configure Office" [dragEnabled]="false"
+          [closeOnOutsideClick]="false" [(visible)]="ConfigureOfficePopupVisible">
+    <div *dxTemplate="let data of 'content'">
+        <office-configuration *ngIf="ConfigureOfficePopupVisible" (closeSearchPopupCall)="closeConfigureOfficePopup()"></office-configuration>
+    </div>
+</dx-popup>

@@ -1,0 +1,154 @@
+﻿<div class="row" style="border:thin; padding:5px;">
+    <dx-scheduler [dataSource]="globalDataService.availableSlotsData"
+                  [showCurrentTimeIndicator]='true'
+                  [views]='["day", "week", "month"]'
+                  [currentView]="globalDataService.currentView"
+                  [timeZone]="globalDataService.currentLocation" 
+                  [currentDate]="globalDataService.schedulerCurrentDate"    
+                  [startDayHour]="globalDataService.startDayHour"
+                  [endDayHour]="globalDataService.endDayHour"
+                  [showAllDayPanel]="false"
+                  (onOptionChanged)="onWidgetChanged($event)"
+                  (onAppointmentClick)="onAppointmentClick($event)"
+                  (onAppointmentDblClick)="onAppointmentDblClick($event)"
+                  (onCellClick)="onCellDblClick($event)"
+                  dropDownAppointmentTemplate="dropdowntooltip-template"
+                  appointmentTemplate="appointment-template"
+                  appointmentTooltipTemplate="tooltip-template"
+                  style="width:100%">
+        <dxo-editing [allowAdding]="true" [allowUpdating]="true" [allowDragging]="false" [allowResizing]="false"></dxo-editing>
+        <dxi-resource fieldExpr="appointmentType" label="room" [dataSource]="resourcesData"></dxi-resource>
+      
+        <div *dxTemplate="let appointment of 'tooltip-template'">
+            <!--<ng-container *ngIf="appointment.AppointmentStatusId==0">
+        <div style=" align-content:flex-start">
+
+            <div class="contextdetails">
+                <span style='font-weight:bold;'> Selected Slot : </span>{{ (appointment.startDate | date:'shortTime') + ' - ' + (transfermtShorttime(appointment.endDate))}}
+            </div>
+            <br />
+            <dx-button text='Book Appointment' (onClick)='editAppointment(appointment)' style="color:white; background-color:darkcyan ">
+            </dx-button>
+        </div>
+    </ng-container>-->
+            <ng-container *ngIf="appointment.AppointmentStatusId!=0">
+                <div style="background-color:aliceblue; align-content:flex-start">
+                    <br />
+                    <div class="contextNameTitle">
+                        <span style='font-weight:bold;'>{{appointment.CustomerDetails.FirstName  | uppercase}} {{appointment.CustomerDetails.LastName  | uppercase}}</span>
+                    </div><br />
+                    <div class="contextdetails">
+                        <span style='font-weight:bold;'>Phone: </span>{{appointment.CustomerDetails.Phone}}
+                    </div>
+                    <div class="contextdetails">
+                        <span style='font-weight:bold;'>Email: </span>{{appointment.CustomerDetails.Email}}
+                    </div>
+                    <div class="contextdetails">
+                        <span style='font-weight:bold;'>Appointment Time: </span>{{ (transfermtShorttime(appointment.startDate)) + ' - ' + (transfermtShorttime(appointment.endDate))}}
+                    </div>
+                    <div class="contextdetails">
+                        <span style='font-weight:bold;'>Comments: </span>{{appointment.Comments}}
+                    </div>
+                    <div class="contextdetails">
+                        <span style='font-weight:bold;'>Services requested: </span> <br />
+                        <div *ngFor="let serv of appointment.AppointmentSerivces" style="align-content:flex-start">
+                            <div class='appdivContainer'>
+                                <div>{{serv.Label}} </div>&nbsp;<div class="appcontextdivItem" [ngStyle]="{'background-color':serv.HashColorCode}"></div>&nbsp;
+                            </div>
+                        </div>
+                    </div>
+
+                    <br />
+                    <dx-button text='Change Status' [disabled]="appointment.AppointmentStatusId!=1" (onClick)='changeStatus(appointment)' style="color:white; background-color:darkgray;">
+                    </dx-button>
+                    <dx-button text='Edit Appointment' [disabled]="appointment.AppointmentStatusId!=1" (onClick)='editAppointment(appointment)' type="default">
+                    </dx-button>
+
+                </div>
+            </ng-container>
+        </div>
+
+        <div *dxTemplate="let appointment of 'dropdowntooltip-template'">
+            <ng-container *ngIf="appointment.AppointmentStatusId==0">
+                <div style=" align-content:flex-start">
+
+                    <div class="contextdetails">
+                        <span style='font-weight:bold;'> Select Slot : </span>{{ (transfermtShorttime(appointment.startDate)) + ' - ' + (transfermtShorttime(appointment.endDate))}}
+                    </div>
+                    <br />
+                    <dx-button text='Book Appointment' (onClick)='editAppointment(appointment)' style="color:white; background-color:darkcyan ">
+                    </dx-button>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="appointment.AppointmentStatusId!=0">
+                <div style="font-size: 12px;">
+                    <span>{{appointment.CustomerDetails.FirstName  | capitalizeFirst}} {{appointment.CustomerDetails.LastName  | capitalizeFirst}}</span>                    
+                </div>
+                <div style="font-size: 11px;padding-bottom: 9px;">
+                    <span>{{ (transfermtShorttime(appointment.startDate)) + ' - ' + (appointment.endDate | date:'shortTime')}}</span>
+                </div>
+                <dx-button text='Change Status' [disabled]="appointment.AppointmentStatusId!=1" (onClick)='changeStatus(appointment)' style="color:white; background-color:darkgray;">
+                </dx-button>
+                <dx-button text='Edit Appointment' [disabled]="appointment.AppointmentStatusId!=1" (onClick)='editAppointment(appointment)' type="default">
+                </dx-button>
+            </ng-container>
+        </div>
+
+        <div *dxTemplate="let appointment of 'appointment-template'" [ngStyle]="{'background-color':getAppointmentStatusColorbyId(appointment.AppointmentStatusId)} ">            
+            <div class='showtime-preview'>
+                <div class="namecaption"  *ngIf="appointment.AppointmentStatusId!=0" [ngStyle]="{'color':getAppointmentTypeTextColorbyId(appointment.AppointmentStatusId)}">
+                    {{appointment.CustomerDetails.FirstName}} {{appointment.CustomerDetails.LastName}}
+                </div>
+                <div class="datecaption" [ngStyle]="{'color':getAppointmentTypeTextColorbyId(appointment.AppointmentStatusId)}">
+                    {{(transfermtShorttime(appointment.startDate)) + ' - ' + (transfermtShorttime(appointment.endDate))}}
+                </div>
+                <ng-container *ngIf="appointment.AppointmentStatusId!=0">
+                    <div style="margin-top:-5px">
+                        <div class='appdivContainer'>
+                            <div *ngFor="let serv of appointment.AppointmentSerivces" class="appdivItem" [ngStyle]="{'background-color':serv.HashColorCode}"> </div>
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+            
+        </div>
+    </dx-scheduler>
+    <dx-popup class="popup"
+              [width]="popupWeight"
+              [height]="popupHeight"
+              [showTitle]="true"
+              [(title)]="pageTitle"
+              [dragEnabled]="false"
+              (onShown)="handleTooltip($event)"
+              [closeOnOutsideClick]="false"
+              [(visible)]="popupVisible">
+        <div *dxTemplate="let data of 'content'">
+            <create-appointment *ngIf="popupVisible" [selectedDateTimeSlote]="selectedDateTimeSlote" (closeEditAppointmentCall)="closeEditAppointment($event)"></create-appointment>
+        </div>
+    </dx-popup>
+    <dx-popup class="popup"
+              [width]="350"
+              [height]="220"
+              [showTitle]="true"
+              title="Change Appointment Status"
+              [dragEnabled]="false"
+              [closeOnOutsideClick]="true"
+              [(visible)]="popupChangeSatusVisible">
+        <div *dxTemplate="let data of 'content'">
+            <div class="card" style="border:double; border-color:cadetblue">
+                <div class="card-body">
+                    <dx-button text='Complete Appointment' (onClick)='updateAppointmentStatus("complete")' style="color:#636e72; background-color:#9acafc; width:100%; ">
+                    </dx-button><br />
+                    <dx-button text='No Show Appointment' (onClick)='updateAppointmentStatus("noshow")' style="color:#FFFFFF; background-color:#636e72; width:100%;  ">
+                    </dx-button><br />
+                    <dx-button text='Cancel Appointment' (onClick)='updateAppointmentStatus("cancel")' style="color:#636e72; background-color:#eda999; width:100%;  ">
+                    </dx-button>
+                </div>
+            </div>
+        </div>
+    </dx-popup>
+</div>
+<div class="row" style="padding-left:6px;padding-right:6px;" >  
+    <calendar-legends [appointmentServicesLegends]="auxBusinessService" style="width:99%;"></calendar-legends>    
+</div>
+

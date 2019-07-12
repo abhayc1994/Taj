@@ -1,0 +1,15 @@
+﻿<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>$SiteProjectId$</id>
+    <title>AppoinmentManagementSystem.Web</title>
+    <version>1.0.0</version>
+    <authors>National Office</authors>
+    <owners>National Office</owners>
+    <licenseUrl>http://www.libertytax.com</licenseUrl>
+    <projectUrl>http://www.libertytax.com</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>AppoinmentManagementSystem.Web</description>
+    <releaseNotes>Working...</releaseNotes>
+  </metadata>
+</package>

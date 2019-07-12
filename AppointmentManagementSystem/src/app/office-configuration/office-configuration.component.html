@@ -1,0 +1,86 @@
+
+<div class="container">
+    <div style="border-color:cadetblue">
+
+        <div class="form-group first" style="align-content:flex-start">
+            <table class="col-lg-12" style="width:1000px">
+                <tr>
+                    <td></td>
+                    <td>
+                        <label><b>Available Slot</b></label>
+                    </td>
+                    <td style="margin-left:0%;">
+                        <label>
+                            <b>
+                                Preparers available
+                            </b>
+                        </label>
+                    </td>
+                    <td>
+                        <label><b>Available Slot</b></label>
+                    </td>
+                    <td style="margin-left:1%;">
+                        <label>
+                            <b>
+                                Preparers available
+                            </b>
+                        </label>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <strong>1 hr</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>30mins</strong>
+                    </td>
+                    <td>
+                        <label style="margin-left:30%;">
+                            <b>Morning Slot</b>
+                        </label>
+                    </td>
+                    <td>
+                        <strong>1 hr</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>30mins</strong>
+                    </td>
+                    <td>
+                        <label style="margin-left:30%;"> <b>Evening Slot </b></label>
+                    </td>
+                </tr>
+                <tr *ngFor="let Hours of officeOperationHoursData">
+                    <td>
+                        <input type="checkbox" [checked]="Hours.IsEnabled" (change)="Hours.IsEnabled=!Hours.IsEnabled" class="chkstyle" />&nbsp;
+                        <span style="vertical-align:6px;margin-bottom: 15px;">{{getDay(Hours.DayOrder)}}</span>
+                    </td>
+                    <td>
+                        <ng-container *ngIf="Hours.MorningOpenTime!=undefined && Hours.MorningOpenTime!='' && Hours.MorningCloseTime!=undefined && Hours.MorningCloseTime!=''">
+                            <input type="radio" name={{Hours.DayOrder}} checked="checked" [value]="true" [(ngModel)]="Hours.HasOfficeAppointmentConfiguredHourly" [disabled]="!Hours.IsEnabled" style="margin-right:30%;" class="rdstyle" />
+                            <input type="radio" name={{Hours.DayOrder}} [value]="false" [checked]="!Hours.HasOfficeAppointmentConfiguredHourly" [(ngModel)]="Hours.HasOfficeAppointmentConfiguredHourly" [disabled]="!Hours.IsEnabled" class="rdstyle" />
+                        </ng-container>
+                    </td>
+                    <td>
+                        <ng-container *ngIf="Hours.MorningOpenTime!=undefined && Hours.MorningOpenTime!='' && Hours.MorningCloseTime!=undefined && Hours.MorningCloseTime!=''">
+                            <input type="text" (keypress)="numberOnly($event)" (paste)="numberOnly($event)" class="txtstyle" name="morningSlotPersonnelCount" [(ngModel)]="Hours.MorningPersonnelCount" [disabled]="!Hours.IsEnabled" />&nbsp;&nbsp;{{Hours.MorningOpenTime}} AM - {{convertTime24to12(Hours.MorningCloseTime)}}
+                        </ng-container>
+
+                    </td>
+                    <td>
+                        <ng-container *ngIf="Hours.EveningOpenTime!=undefined && Hours.EveningOpenTime!='' && Hours.EveningCloseTime!=undefined && Hours.EveningCloseTime!=''">
+                            <input type="radio" name="{{Hours.DayOrder}}+'Evening'" checked="checked" [value]="true" [(ngModel)]="Hours.HasEveningOfficeAppointmentConfiguredHourly" [disabled]="!Hours.IsEnabled" style="margin-right:30%;" class="rdstyle" />
+                            <input type="radio" name="{{Hours.DayOrder}}+'Evening'" [value]="false" [checked]="!Hours.HasEveningOfficeAppointmentConfiguredHourly" [(ngModel)]="Hours.HasEveningOfficeAppointmentConfiguredHourly" [disabled]="!Hours.IsEnabled" class="rdstyle" />
+                        </ng-container>
+                    </td>
+                    <td>
+                        <ng-container *ngIf="Hours.EveningOpenTime!=undefined && Hours.EveningOpenTime!='' && Hours.EveningCloseTime!=undefined && Hours.EveningCloseTime!=''">
+                            <input type="text" (keypress)="numberOnly($event)" (paste)="numberOnly($event)" class="txtstyle" name="eveningSlotPersonnelCount" [(ngModel)]="Hours.EveningPersonnelCount" [disabled]="!Hours.IsEnabled" />&nbsp;&nbsp;{{convertTime24to12(Hours.EveningOpenTime)}} - {{convertTime24to12(Hours.EveningCloseTime)}}
+                        </ng-container>
+                    </td>
+                </tr>
+            </table>
+            <br />
+            <div class="row">
+                <span style="color: red; margin-left: 376px; height: 25px; font-weight: bold;">{{errorMessage}}</span>
+                <div class="col-md-9" style="display: flex;align-items: center;justify-content: center;">
+                    <button type="submit" class="btn btn-primary" [disabled]="!(officeOperationHoursData!=null && officeOperationHoursData!=undefined && officeOperationHoursData.length>0)" (click)="saveOfficeHoursConfiguration()">Save Configuration</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

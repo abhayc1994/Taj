@@ -1,0 +1,230 @@
+﻿<div *ngIf="customerDetails">    
+    <form #calcform="ngForm" (submit)="save($event)">       
+            <div class="row">
+                <div class="col-lg-6">
+                    <label>First Name</label>
+                    <dx-text-box [(value)]="customerDetails.FirstName" [disabled]="customerAppointmentDetailsModel.AppointmentStatusId>0">
+                        <dx-validator>
+                            <dxi-validation-rule type="required" message="First Name is required"></dxi-validation-rule>
+                            <dxi-validation-rule type="pattern" [pattern]="namePattern" message="Numbers and special characters other than the -,' are not valid characters"></dxi-validation-rule>
+                            <dxi-validation-rule type="stringLength" [max]="100" message="The text entered exceeds the maximum length of 100 characters."></dxi-validation-rule>                           
+                        </dx-validator>
+                    </dx-text-box>
+                </div>
+
+                <div class="col-lg-6">
+                    <label>Last Name</label>
+                    <dx-text-box [(value)]="customerDetails.LastName" [disabled]="customerAppointmentDetailsModel.AppointmentStatusId>0">
+                        <dx-validator>
+                            <dxi-validation-rule type="required" message="Last Name is required"></dxi-validation-rule>
+                            <dxi-validation-rule type="pattern" [pattern]="namePattern" message="Numbers and special characters other than the -,' are not valid characters.."></dxi-validation-rule>
+                            <dxi-validation-rule type="stringLength" [max]="100" message="The text entered exceeds the maximum length of 100 characters."></dxi-validation-rule>
+                        </dx-validator>
+                    </dx-text-box>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <label>Phone Number</label>
+                    <dx-text-box [(value)]="customerDetails.Phone" mask="+1 (000) 000-0000" [maskRules]="rules" (keyup)="onTextchangeEvent($event,'Phone')">
+                        <dx-validator>
+                            <dxi-validation-rule type="required" message="Phone number is required"></dxi-validation-rule>
+                            <dxi-validation-rule type="custom" [validationCallback]="validationCallbackPhone" message="Phone number is required."></dxi-validation-rule>
+                        </dx-validator>
+                    </dx-text-box>
+                </div>
+                <div class="col-lg-6">
+                    <dx-check-box id="checktext"
+                                  [value]="customerDetails.TextOptIn"
+                                  text="Opt-in to receive appointment texts"
+                                  (onValueChanged)="onTextOptionValueChanged($event);checkDirtyForm()" style="padding-top:22px;">
+                    </dx-check-box>
+                    <dx-tooltip target="#check"
+                                position="right"
+                                [(visible)]="withTemplateVisible">
+                        <div *dxTemplate="let data = data of 'content'">
+                            {{optInDisclaimerText}}
+                        </div>
+                    </dx-tooltip>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-6">
+                    <label>Email</label>
+                    <dx-text-box [(value)]="customerDetails.Email" (keyup)="onTextchangeEvent($event,'Email')">
+                        <dx-validator>
+                            <dxi-validation-rule type="email"></dxi-validation-rule>
+                            <dxi-validation-rule type="stringLength" [max]="200" message="The text entered exceeds the maximum length of 200 characters."></dxi-validation-rule>
+                            <dxi-validation-rule *ngIf="customerDetails.EmailOptIn" type="required" message="Email is required"></dxi-validation-rule>
+                        </dx-validator>
+                    </dx-text-box>
+                </div>
+                <div class="col-lg-6">
+                    <dx-check-box id="checkEmail"
+                                  [value]="customerDetails.EmailOptIn"
+                                  text="Opt-in to receive appointment email"
+                                  (onValueChanged)="onEmailOptionValueChanged($event);checkDirtyForm()" style="padding-top:22px;">
+                    </dx-check-box>
+                    <dx-tooltip target="#check"
+                                position="right"
+                                [(visible)]="withTemplateVisible">
+                        <div *dxTemplate="let data = data of 'content'">
+                            {{optInDisclaimerText}}
+                        </div>
+                    </dx-tooltip>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <label>Last 4 digits of SSN</label>
+                    <dx-text-box [(value)]="customerDetails.Last4SSN" mask="0000" [maskRules]="rules" [disabled]="customerAppointmentDetailsModel.AppointmentStatusId>0">
+                        <dx-validator>
+                            <dxi-validation-rule type="required" message="SSN is required"></dxi-validation-rule>
+                            <dxi-validation-rule type="custom" [validationCallback]="validationCallbackSSN" message="SSN is required."></dxi-validation-rule>
+                        </dx-validator>
+                    </dx-text-box>
+                </div>
+                <div class="col-lg-6">
+                    <dx-check-box id="checktextSpanish"
+                                  [(value)]="customerAppointmentDetailsModel.IsSpanishLanguage"
+                                  text="Prefers to be contacted in Spanish"
+                                  (onValueChanged)="checkDirtyForm()" style="padding-top:22px;">
+                    </dx-check-box>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <label>Appointment Type &nbsp;  <span style="color:red" *ngIf="selectAppType">Select appointment type</span></label>
+                    <ng-multiselect-dropdown name="appointmentType" [placeholder]="'Select Appointment Type'"
+                                             [data]="appointmentTypes"
+                                             [(ngModel)]="selectedAppointmentTypes"
+                                             [settings]="dropdownSettings"
+                                             (ngModelChange)="selectChange();checkDirtyForm()">
+                    </ng-multiselect-dropdown>
+                </div>
+
+
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <label>Appointment Notes</label>
+                    <dx-text-area [height]="50"
+                                  [(value)]="customerDetails.AppointmentNote" (keyup)="onTextchangeEvent($event,'AppointmentNote')">
+                        <dx-validator>
+                            <dxi-validation-rule type="pattern" [pattern]="commentsPattern" message="Do not use special characters except these -_,'?$&()[]., space, newline and double quotes"></dxi-validation-rule>
+                            <dxi-validation-rule type="stringLength" [max]="300" message="The text entered exceeds the maximum length of 300 characters."></dxi-validation-rule>
+                        </dx-validator>
+                    </dx-text-area>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12">
+                    <label>Date</label>
+                    <input type="text" class="form-control" name="Date" [(ngModel)]="date" disabled="disabled">
+                </div>
+
+                <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12">
+                    <label>Start Time</label>
+                    <input type="text" class="form-control" name="startTime" [(ngModel)]="startTime" disabled="disabled">
+                </div>
+                <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12">
+                    <label>End Time</label>
+                    <input type="text" class="form-control" name="endTime" [(ngModel)]="endTime" disabled="disabled">
+                </div>
+                <span *ngIf="(startTime==undefined || startTime=='' || endTime==undefined || endTime=='') && isdirty" class="timeslot-error-msg"> Select time slot.</span>
+            </div>
+
+            <div class="row">
+                <label style="color:red" *ngIf="serverVal">Server validation failed.</label>
+                <div class="col-lg-4 col-md-4 hidden-xs hidden-sm">
+                    <dx-button [disabled]="!(customerAppointmentDetailsModel.AppointmentStatusId==undefined || customerAppointmentDetailsModel.AppointmentStatusId>=0)" id="selectslote"
+                               text="Select Slot"
+                               type="success"
+                               (click)="selectSlote()">
+                    </dx-button>
+                </div>
+                <div class="hidden-lg hidden-md col-xs-4 col-sm-4">
+                    <dx-button [disabled]="!(customerAppointmentDetailsModel.AppointmentStatusId==undefined || customerAppointmentDetailsModel.AppointmentStatusId>=0)" id="selectslote"
+                               text="PickSlot"
+                               type="success"
+                               (click)="selectSlote()"
+                               class="btn btn-link">
+                    </dx-button>                 
+
+                </div>
+                <div class="col-lg-4 col-md-4 hidden-xs hidden-sm">
+                    <dx-button [disabled]="isdirtyConfirm" id="button"
+                               text="Confirm"
+                               type="success"
+                               [useSubmitBehavior]="true">
+                    </dx-button>
+                </div>
+                <div class="hidden-lg hidden-md col-xs-4 col-sm-4">                   
+                    <dx-button id="button"
+                               text="Confirm"
+                               type="success"
+                               [useSubmitBehavior]="true"
+                               class="btn btn-link">
+                    </dx-button>
+                </div>
+                <div class="col-lg-4 col-md-4 hidden-xs hidden-sm">
+                    <dx-button id="cancel"
+                               text="Cancel"
+                               type="success"
+                               (click)="closeWindow()">
+                    </dx-button>
+                </div>
+                <div class="hidden-lg hidden-md col-xs-4 col-sm-4">
+                    <dx-button id="cancel"
+                               text="Cancel"
+                               type="success"  class="btn btn-link"
+                               (click)="closeWindow()">
+                    </dx-button>
+                    
+                </div>
+            </div>
+            <dx-popup class="disclaimerpopup"
+                      [width]="400"
+                      [height]="160"
+                      [showTitle]="false"
+                      [(title)]="pageTitle"
+                      [dragEnabled]="false"
+                      [closeOnOutsideClick]="false"
+                      [(visible)]="disclaimerpopupVisible">
+                <div *dxTemplate="let data of 'content'">
+
+                    <div class="card-body">
+                        <p>You are indicating that the client has provided consent for {{this.globalDataService.officeBrand ? 'SiempreTax ' : 'Liberty Tax'}} to send them communication about their appointment through email.</p>
+                        <dx-button text='Agree ' (onClick)='emailOptInChange("agree")' class=" agree-popup-style">
+                        </dx-button>
+                        <dx-button text='Disagree' (onClick)='emailOptInChange("disagree")' class=" disagree-popup-style">
+
+                        </dx-button>
+                    </div>
+
+                </div>
+            </dx-popup>
+            <dx-popup class="disclaimerpopup"
+                      [width]="400"
+                      [height]="160"
+                      [showTitle]="false"
+                      [(title)]="pageTitle"
+                      [dragEnabled]="false"
+                      [closeOnOutsideClick]="false"
+                      [(visible)]="textdisclaimerpopupVisible">
+                <div *dxTemplate="let data of 'content'">
+
+                    <div class="card-body">
+                        <p>You are indicating that the client has provided consent for {{this.globalDataService.officeBrand ? 'SiempreTax ' : 'Liberty Tax'}} to send them communication about their appointment through text message.</p>
+                        <dx-button text='Agree ' (onClick)='textOptInChange("agree")' class=" agree-popup-style">
+                        </dx-button>
+                        <dx-button text='Disagree' (onClick)='textOptInChange("disagree")' class="disagree-popup-style">
+                        </dx-button>
+                    </div>
+
+                </div>
+            </dx-popup>           
+</form>
+</div>
